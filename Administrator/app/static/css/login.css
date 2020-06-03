@@ -1,0 +1,13 @@
+.backJumbo {
+    background-image: url('/static/img/fondo.jpg');
+    background-repeat: repeat;
+}
+
+.white-background {
+    background: white;
+}
+
+.blue {
+    background: rgb(73,73,125);
+    background: linear-gradient(144deg, rgba(73,73,125,1) 0%, rgba(70,117,122,1) 0%); 
+}

@@ -1,0 +1,49 @@
+{% extends "admin/templates/layout_dashboard.html"%}
+
+{% block body %}
+<div class="container-fluid mx-auto bg-light mheight containBar">
+	<br>
+	<div class="container bg-white w-50 p-4 scroll-down shadow-sm">
+		<form action="/dashboard/modify_user/modify/{{muser.0}}" method="POST">
+                    <div class="text-center">
+                        <h1><i class='fas fa-user'></i>&nbsp;Modificar Usuario</h1>
+                        <hr>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nombre</label>
+                        <input type="text" name="name" class="form-control rounded-pill"
+                            placeholder="Digite su nombre..." value="{{muser.1}}" 
+                            aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Apellidos</label>
+                        <input type="text" name="lastname" class="form-control rounded-pill"
+                            placeholder="Digite sus apellidos..." value="{{muser.2}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Nombre de usuario</label>
+                        <input type="text" name="user" class="form-control rounded-pill"
+                            placeholder="Digite su nombre de usuaro..." value="{{muser.3}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Contraseña</label>
+                        <input type="password" name="pass" class="form-control rounded-pill"
+                            placeholder="Digite su contraseña..." value="{{muser.4}}" required>
+                    </div>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show h-25 rounded-pill" role="alert">
+                                    <small><strong>{{message}}</strong></small>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                            {% endfor%}
+                        {% endif %}
+                    {% endwith %}
+                    <button type="submit" class="btn btn-primary btn-block rounded-pill">Modificar</button>
+                </form>
+	</div>
+</div>
+{% endblock %}

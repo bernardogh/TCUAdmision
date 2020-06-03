@@ -1,0 +1,73 @@
+.container {
+    display: flex;
+    min-width: 100%;
+}
+.cardtest {
+    min-width: 45%;
+    height: 90px;
+    margin: 5px;
+    border-width: 1px;
+    border-radius: 10px 10px 10px 10px;
+    text-align: center;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.whiteColor {
+    color: #f8f7ff;
+    text-align: center;
+}
+
+.btn-togl {
+    background: white !important;
+    border-color: white !important;
+    box-shadow: 0px 0px 0px 0px white !important;
+}
+
+.centers {
+    justify-content: center !important;
+    
+}
+
+.centerText {
+    text-align: center;
+}
+
+.ui-panel-inner {
+    padding: 0px !important;
+}
+
+.menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0px !important;
+  width: 100%;
+  background-color: #white;
+}
+
+.myPanel {
+    padding: 0px !important;
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+a {
+    color: black !important;
+}
+
+a.active {
+  background-color: #00a0c1;
+  color: white !important;
+}
+
+.link_a {
+    text-decoration: none;
+}
+
+.zoom:hover {
+    transform: scale(1.05);
+}

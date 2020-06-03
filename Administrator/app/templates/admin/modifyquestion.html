@@ -1,0 +1,39 @@
+{% extends 'admin/templates/layout_dashboard.html' %}
+
+{% block body %}
+<script src="{{url_for('static', filename='js/scriptAscii.js')}}"></script>
+<div class="container-fluid pt-4 bg-light mheight containBar">
+	<div class="container bg-white rounded shadow">
+		<div class="container">
+			<br>
+			<h1 class="text-center">Modificar Preguntas</h1>
+			<table class="table">
+  <thead>
+    <tr>
+      <th style="width: 8%" scope="col">#</th>
+      <th style="width: 50%" scope="col">Pregunta</th>
+      <th style="width: 30%" scope="col">Enlace</th>
+      <th  style="width: 12%" scope="col">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{%for question in questions%}
+	<tr>
+      <th scope="row">1</th>
+      <td onload="convert()">{{question.3}}</td>
+      <td onload="convert()">{{question.2}}</td>
+      <td><a href="/dashboard/modifyquestion/{{question.0}}" class="btn btn-warning"><i class='fas fa-pen' style="color:white;"></i></a>&nbsp;<a href="/dashboard/modifyquestion/{{question.0}}" class="btn btn-danger"><i class='fas fa-times' style="color:white;"></i></a></td>
+    </tr>
+{%endfor%}
+  </tbody>
+</table>	
+		</div>
+	
+	
+
+</div>
+</div>
+
+
+
+{% endblock %}

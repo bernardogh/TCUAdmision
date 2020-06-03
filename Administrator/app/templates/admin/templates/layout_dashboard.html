@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Administrador AdmsionUCR</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css')}}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/ASCIIMathML.js')}}"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div id="sidebar" class="background-dash container-fluid text-cl shadow p-0 mb-5">
+				<div class="p-0 w-100 ">
+					<h5 class="text-center p-2"><strong><i class='fas fa-feather-alt'></i>Admision UCR</strong></h5>
+					<hr>
+					<h5 class="text-center"><strong>Bienvenido {{user}}</strong></h5>
+					<div class="container-fluid pl-0 pr-0">	
+					<a class="navbar-brand pl-2 text-cl btn-block sizeF" href="/dashboard"><i class='fas fa-tachometer-alt'></i>&nbsp;Dashboard</a></div>
+					<div class="container-fluid pl-0 pr-0">	
+    					<a class="text-cl pl-2 navbar-brand btn-block sizeF dropdown-toggle"data-toggle="collapse" data-target="#navbarToggleExternalContent"><i class='fas fa-user'></i>&nbsp;Usuarios</a>
+    						<div class="collapse" id="navbarToggleExternalContent">
+   								<div class="pl-0 pr-0">
+	      							<a class="navbar-brand text-cl pl-3 btn-block sizeF" id="crearUsuario" href="/dashboard/create_user">&nbsp;&nbsp;<i class='fas fa-plus'></i>&nbsp;Crear Usuario</a>
+	      							<a class="navbar-brand text-cl pl-3 btn-block sizeF" id="modificarUsuario" href="/dashboard/modify_user">&nbsp;&nbsp;<i class='fas fa-edit'></i>&nbsp;Modificar Usuario</a>
+    							</div>
+  							</div>
+					</div>				
+  					<div class="container-fluid pl-0 pr-0">
+    						<a class="text-cl pl-2 navbar-brand btn-block sizeF dropdown-toggle" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent1" aria-controls="navbarToggleExternalContent1" aria-expanded="false" aria-label="Toggle navigation"><i class='fas fa-question'></i>&nbsp;Preguntas</a>
+    						<div class="collapse" id="navbarToggleExternalContent1">
+   								<div class="pl-0">
+	      							<a class="navbar-brand text-cl pl-3 btn-block sizeF" id="crearPregunta" href="/dashboard/addquestion">&nbsp;&nbsp;<i class='fas fa-plus'></i>&nbsp;Agregar pregunta</a>
+	      							<a class="navbar-brand text-cl pl-3 btn-block sizeF" id="modificarPregunta" href="/dashboard/modify-question">&nbsp;&nbsp;<i class='fas fa-edit'></i>&nbsp;Modificar Pregunta</a>
+  								</div>
+							</div>	
+					</div>
+					<a class="navbar-brand pl-2 text-cl btn-block sizeF" href="/dashboard"><i class='fas fa-graduation-cap'></i>&nbsp;Examenes</a></div>
+					<a class="navbar-brand pl-2 text-cl btn-block sizeF" href="/sign-out"><i class='fas fa-sign-out-alt'></i>&nbsp;Cerrar Sesion</a></div>
+				</div>
+			</div>
+			<div id="restbar" class="p-0">
+				<div class="container-fluid bg-white">
+					<button class="btn" onclick="toggleSideBar()"><i class='fas fa-align-justify'></i></button>		
+				</div>
+				{% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show h-25 rounded-pill" role="alert">
+                                <small><strong>{{message}}</strong></small>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor%}
+                    {% endif %}
+                {% endwith %}
+				{% block body %}
+				{% endblock %}
+			</div>
+		</div>
+		
+	</div>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <!--SCRIPTS-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+
+
+</body>
+</html>

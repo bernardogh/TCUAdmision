@@ -1,0 +1,51 @@
+{% extends "admin/templates/layout_dashboard.html" %}
+
+
+{% block body %}
+<div class="container-fluid p-0 containBar">
+	<div class="container-fluid bg-light containBar">
+		<div class="row p-2 ml-4">
+			<div class="card ml-4 bg-usr border-0 text-cl wi-card shadow-sm md-5">
+	  			<div class="card-body">
+    				<div class="card-title row w-100">
+    					<h4 class="col-md-6">{{counter_users}}</h4>
+    					<h3 class="col-md-6 text-right"><i class='fas fa-user'></i></h3>
+    				</div>
+    				<h6 class="card-subtitle mb-2 text-cl">Usuarios Registrados</h6>
+    				<hr>
+  				</div>
+			</div>
+		<div class="card ml-4 bg-exa border-0 text-cl wi-card shadow-sm md-5">
+  			<div class="card-body">
+    			<div class="card-title row w-100">
+    					<h4 class="col-md-6">{{counter_questions}}</h4>
+    					<h3 class="col-md-6 text-right"><i class='fas fa-lightbulb'></i></h3>
+    				</div>
+    				<h6 class="card-subtitle mb-2 text-cl">Preguntas Registradas</h6>
+    				<hr>
+  			</div>
+		</div>
+		<div class="card ml-4 bg-pr border-0 text-cl wi-card shadow-sm md-5">
+  			<div class="card-body">
+    			<div class="card-title row w-100">
+    					<h4 class="col-md-6">{{counter_exam}}</h4>
+    					<h3 class="col-md-6 text-right"><i class='fas fa-file-alt'></i></h3>
+    				</div>
+    				<h6 class="card-subtitle mb-2 text-cl">Examenes realizadas</h6>
+    				<hr>
+  			</div>
+		</div>
+		<div class="card ml-4 bg-ri border-0 text-cl wi-card shadow-sm md-5">
+  			<div class="card-body">
+    			<div class="card-title row w-100">
+    					<h4 class="col-md-6">{{counter_int}}</h4>
+    					<h3 class="col-md-6 text-right"><i class="fa fa-check-circle"></i></h3>
+    				</div>
+    				<h6 class="card-subtitle mb-2 text-cl">Intentos Realizados</h6>
+    				<hr>
+  			</div>
+		</div>
+	</div>
+</div>	
+
+{% endblock %}
