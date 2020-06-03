@@ -9,7 +9,7 @@ class Config(object):
     DB_NAME = 'production-db'
     DB_USERNAME = 'root'
     DB_PASSWORD = 'example'
-    
+    MYSQL_PORT = 3307
     MYSQL_HOST = 'localhost'
     MYSQL_USER = 'root'
     MYSQL_PASSWORD = 'contra15'
