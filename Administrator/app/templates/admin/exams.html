@@ -1,0 +1,35 @@
+{% extends "admin/templates/layout_dashboard.html" %}
+
+{% block body %}
+<div class="container-fluid mx-auto bg-light mheight containBar">
+	<br>
+	<div class="container bg-white w-75 p-4 scroll-down shadow-sm">
+		<h2 class="text-center">Examenes  </h2>
+		
+		<table class="table">
+  			<caption>Lista de Examanes</caption>
+  			<thead>
+    			<tr>
+      				<th scope="col">Codigo</th>
+      				<th scope="col">Año</th>
+      				<th scope="col">Accion</th>
+    			</tr>
+  			</thead>
+  			<tbody>
+				{% for exam in exams %}
+    			<tr>
+      				<td>{{exam.1}}</td>
+      				<td>{{exam.2}}</td>
+      				<td><a href="/dashboard/mu/{{exam.0}}" class="btn btn-warning"><i class='fas fa-pen' style="color:white;"></i></a>&nbsp;<a href="/dashboard/delete/{{exam.0}}" class="btn btn-danger"><i class='fas fa-times' style="color:white;"></i></a></td>
+    			</tr>
+    			{% endfor %}
+  			</tbody>
+		</table>
+		<div class="container text-center">
+			<a class="btn btn-primary text-center" href="/dashboard/addexam" role="button">Agregar Nuevo</a>
+	</div>
+	</div>
+
+</div>
+
+{% endblock %}

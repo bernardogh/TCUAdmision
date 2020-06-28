@@ -85,6 +85,14 @@ def create_user():
         flash('Debes iniciar sesion...!!!')
         return redirect(url_for("login"))
 
+@app.route("/dashboard/addexam")
+def create_exam():
+    if not session.get("USERNAME") is None:
+        return render_template('admin/addexam.html', user=session.get("USERNAME"))
+    else:
+        flash('Debes iniciar sesion...!!!')
+        return redirect(url_for("login"))
+
 
 @app.route("/dashboard/create_user/save", methods=["POST"])
 def saveuser():
@@ -105,6 +113,13 @@ def modify_user():
     cur.execute('SELECT * FROM USUARIO')
     data = cur.fetchall()
     return render_template('admin/modify.html', users = data)
+
+@app.route("/dashboard/exams")
+def exams():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM EXAMEN')
+    data = cur.fetchall()
+    return render_template('admin/exams.html', exams = data)
 
 @app.route("/dashboard/mu/<id>")
 def modifyUser(id):
