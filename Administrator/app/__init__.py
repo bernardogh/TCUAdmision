@@ -1,8 +1,9 @@
 from flask import Flask
-from flask_mysqldb import MySQL
+from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 mysql = MySQL(app)
+mysql.init_app(app)
 
 app.secret_key = "b'p\x83|y\xe5iN\x1d\x98\tEB\xe0\t\xe5\xba'"
 if app.config["ENV"] == 'production':

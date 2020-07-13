@@ -2,30 +2,15 @@
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     26/2/2020 13:40:08                           */
 /*==============================================================*/
-
-
-drop table if exists EXAMEN;
-
-drop table if exists EX_CONTIENE_PRE;
-
-drop table if exists INTENTO;
-
-drop table if exists PREGUNTA;
-
-drop table if exists PRES_COMPUESTA_RESP;
-
-drop table if exists RESPUESTA;
-
-drop table if exists USUARIO;
+use AdmisionUCR;
 
 /*==============================================================*/
 /* Table: EXAMEN                                                */
 /*==============================================================*/
 create table EXAMEN
 (
-   EXM_CODIGO           int not null,
-   ANHO                 numeric(8,0),
-   primary key (EXM_CODIGO)
+   EXM_CODIGO           int not null primary key AUTO_INCREMENT,
+   ANHO                 numeric(8,0)
 );
 
 /*==============================================================*/
@@ -43,13 +28,12 @@ create table EX_CONTIENE_PRE
 /*==============================================================*/
 create table INTENTO
 (
-   INT_CODIGO           int not null,
+   INT_CODIGO           int not null  primary key AUTO_INCREMENT,
    USU_CODIGO_USUARIO   int not null,
    EXM_CODIGO           int not null,
    INT_FECHA            datetime not null,
    INT_DURACION         datetime not null,
-   INT_CALIFICACION     decimal not null,
-   primary key (INT_CODIGO)
+   INT_CALIFICACION     decimal not null
 );
 
 /*==============================================================*/
@@ -57,11 +41,10 @@ create table INTENTO
 /*==============================================================*/
 create table PREGUNTA
 (
-   CODIGO_PREGUNTA      int not null,
-   PREGUNTA_IMAGEN      VBIN,
-   PREGUNTA_ENLACE      blob,
-   TEXTO_PREGUNTA       text not null,
-   primary key (CODIGO_PREGUNTA)
+   CODIGO_PREGUNTA      int not null primary key AUTO_INCREMENT,
+   PREGUNTA_IMAGEN      longtext,
+   PREGUNTA_ENLACE      text,
+   TEXTO_PREGUNTA       text not null
 );
 
 /*==============================================================*/
@@ -79,10 +62,9 @@ create table PRES_COMPUESTA_RESP
 /*==============================================================*/
 create table RESPUESTA
 (
-   RESP_CODIGO          int not null,
+   RESP_CODIGO          int not null primary key AUTO_INCREMENT,
    RESP_CORRECTO        bool,
-   TEXTO_RESPUESTA      text not null,
-   primary key (RESP_CODIGO)
+   TEXTO_RESPUESTA      text not null
 );
 
 /*==============================================================*/
@@ -90,13 +72,12 @@ create table RESPUESTA
 /*==============================================================*/
 create table USUARIO
 (
-   USU_CODIGO_USUARIO   int not null,
+   USU_CODIGO_USUARIO   int not null  primary key AUTO_INCREMENT,
    USU_NOMBRE           varchar(50) not null,
    USU_APELLIDO         varchar(50) not null,
    USU_CORREO           varchar(50) not null,
    USU_CONTRASENHA      varchar(50) not null,
-   USU_TIPO             varchar(50) not null,
-   primary key (USU_CODIGO_USUARIO)
+   USU_TIPO             varchar(50) not null
 );
 
 alter table EX_CONTIENE_PRE add constraint FK_EX_CONTIENE_PRE foreign key (CODIGO_PREGUNTA)
@@ -116,4 +97,3 @@ alter table PRES_COMPUESTA_RESP add constraint FK_PRES_COMPUESTA_RESP foreign ke
 
 alter table PRES_COMPUESTA_RESP add constraint FK_PRES_COMPUESTA_RESP2 foreign key (CODIGO_PREGUNTA)
       references PREGUNTA (CODIGO_PREGUNTA);
-

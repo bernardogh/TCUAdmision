@@ -1,4 +1,5 @@
-/Administrator/env
+/Administrator/env/
+/Administrator/env/pyvenv.cfg
 /Administrator/config.py
 Administrator/env/bin/activate
 Administrator/env/bin/activate.csh
