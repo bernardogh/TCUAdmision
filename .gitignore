@@ -1,4 +1,7 @@
 /Administrator/env/
+/Administrator/app/config.py
+/Administrator/app/database.py
+/Administrator/app/__init__.py
 /Administrator/env/pyvenv.cfg
 /Administrator/config.py
 Administrator/env/bin/activate

@@ -10,6 +10,7 @@ use AdmisionUCR;
 create table EXAMEN
 (
    EXM_CODIGO           int not null primary key AUTO_INCREMENT,
+   NOMBRE               VARCHAR(50),
    ANHO                 numeric(8,0)
 );
 

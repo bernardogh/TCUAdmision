@@ -1,6 +1,7 @@
 from flask import Flask
 from flaskext.mysql import MySQL
 
+
 app = Flask(__name__)
 mysql = MySQL(app)
 mysql.init_app(app)
@@ -13,6 +14,8 @@ elif app.config["ENV"] == 'testing':
 else:
     app.config.from_object('config.DevelopmentConfig')
     
+from app import database
+
 from app import views
 from app import admin_views
 from app import rest_api
