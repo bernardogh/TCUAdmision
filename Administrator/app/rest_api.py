@@ -10,7 +10,7 @@ def ping():
 
 @app.route('/questions', methods=["GET"])
 def question():
-    cur = mysql.connection.cursor()
+    cur = mysql.get_db().cursor()
     cur.execute('SELECT * FROM PREGUNTA')
     data = cur.fetchall()
     items = []
