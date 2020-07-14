@@ -15,7 +15,7 @@ def dashboard():
     if request.method == 'POST':
         user = request.form['user']
         passw = request.form['pass']
-        cur = mysql.connection.cursor()
+        cur = mysql.get_db().cursor()
         cur.execute('SELECT * FROM USUARIO WHERE USU_CORREO = %s AND USU_CONTRASENHA = %s',(user, passw))
         data = cur.fetchall()
         
@@ -50,7 +50,7 @@ def dashboard():
             users = session.get("USERNAME")
             print(users)
             print(type(users))
-            cur = mysql.connection.cursor()
+            cur = mysql.get_db().cursor()
             cur.execute("SELECT * FROM USUARIO WHERE USU_CORREO = %s", (users, ))
             data = cur.fetchall()
         
@@ -101,29 +101,29 @@ def saveuser():
     user = request.form['user']
     passw = request.form['pass']
     admin = 'ADMIN'
-    cur = mysql.connection.cursor()
+    cur = mysql.get_db().cursor()
     cur.execute('INSERT INTO USUARIO (USU_NOMBRE, USU_APELLIDO, USU_CORREO, USU_CONTRASENHA, USU_TIPO) VALUES (%s, %s, %s, %s, %s)', (name, lastname, user, passw, admin))
-    mysql.connection.commit()
+    mysql.get_db().commit()
     flash(u'El usuario se guardo existosamente', 'success')
     return redirect(url_for("dashboard"))
 
 @app.route("/dashboard/modify_user")
 def modify_user():
-    cur = mysql.connection.cursor()
+    cur = mysql.get_db().cursor()
     cur.execute('SELECT * FROM USUARIO')
     data = cur.fetchall()
     return render_template('admin/modify.html', users = data)
 
 @app.route("/dashboard/exams")
 def exams():
-    cur = mysql.connection.cursor()
+    cur = mysql.get_db().cursor()
     cur.execute('SELECT * FROM EXAMEN')
     data = cur.fetchall()
     return render_template('admin/exams.html', exams = data)
 
 @app.route("/dashboard/mu/<id>")
 def modifyUser(id):
-    cur = mysql.connection.cursor()
+    cur = mysql.get_db().cursor()
     cur.execute('SELECT * FROM USUARIO WHERE USU_CODIGO_USUARIO = %s', (id,))
     data = cur.fetchall()
     print(data[0])
@@ -136,17 +136,17 @@ def muser(id):
     user = request.form['user']
     passw = request.form['pass']
     admin = 'ADMIN'
-    cur = mysql.connection.cursor()
+    cur = mysql.get_db().cursor()
     cur.execute('UPDATE USUARIO SET USU_NOMBRE=%s, USU_APELLIDO=%s, USU_CORREO=%s, USU_CONTRASENHA=%s, USU_TIPO=%s WHERE USU_CODIGO_USUARIO= %s', (name, lastname, user, passw, admin, id))
-    mysql.connection.commit()
+    mysql.get_db().commit()
     flash(u'El usuario se modifico existosamente', 'success')
     return redirect(url_for("modify_user"))
 
 @app.route('/dashboard/delete/<id>')
 def delUser(id):
-    cur = mysql.connection.cursor()
+    cur = mysql.get_db().cursor()
     cur.execute('DELETE FROM USUARIO WHERE USU_CODIGO_USUARIO = %s', (id,))
-    mysql.connection.commit()
+    mysql.get_db().commit()
     flash(u'El usuario se elimino existosamente', 'success')
     return redirect(url_for("modify_user"))
 
@@ -165,7 +165,7 @@ def allowed_image(filename):
 
 @app.route('/dashboard/modify-question')
 def modifyquestion():
-    cur = mysql.connection.cursor()
+    cur = mysql.get_db().cursor()
     cur.execute('SELECT * FROM PREGUNTA')
     data = cur.fetchall()
     return render_template('admin/modifyquestion.html', questions=data)
@@ -192,7 +192,7 @@ def addquestion():
                     return redirect(request.url)
                 if allowed_image(image.filename):
                     image_string = base64.b64encode(image.read())
-                    cur = mysql.connection.cursor()
+                    cur = mysql.get_db().cursor()
                     
                     print('------------------------')
                     print(question)
@@ -214,7 +214,7 @@ def addquestion():
                     cur.execute('INSERT INTO RESPUESTA (RESP_CORRECTO, TEXTO_RESPUESTA) VALUES (%s,%s)', (False, answer3))
                     id_respuesta = cur.lastrowid
                     cur.execute('INSERT INTO PRES_COMPUESTA_RESP (RESP_CODIGO, CODIGO_PREGUNTA) VALUES (%s,%s)', (id_respuesta, idpregunta,))
-                    mysql.connection.commit()
+                    mysql.get_db().commit()
                     flash('Se ha insertado correctamente','success')
                     return render_template('admin/addquestion.html') 
                 else:
@@ -235,7 +235,7 @@ def allowed_image_filesize(filesize):
 
 @app.route('/dashboard/modifyquestion/<id>')
 def modifyquestionQ(id):
-    cur = mysql.connection.cursor()
+    cur = mysql.get_db().cursor()
     cur.execute('SELECT * FROM PREGUNTA INNER JOIN PRES_COMPUESTA_RESP ON PRES_COMPUESTA_RESP.CODIGO_PREGUNTA = PREGUNTA.CODIGO_PREGUNTA INNER JOIN RESPUESTA ON RESPUESTA.RESP_CODIGO = PRES_COMPUESTA_RESP.RESP_CODIGO WHERE PREGUNTA.CODIGO_PREGUNTA = %s;', (id,))
     question = cur.fetchall()
     return render_template('admin/modifyspecificQ.html', question=question)
@@ -258,7 +258,7 @@ def mud():
         answer1 = request.form['respuesta1']
         answer2 = request.form['respuesta2']
         answer3 = request.form['respuesta3']
-        cur = mysql.connection.cursor()
+        cur = mysql.get_db().cursor()
         if request.files:
             if "filesize" in request.cookies:
                 if not allowed_image_filesize(request.cookies["filesize"]):
@@ -280,5 +280,5 @@ def mud():
                 cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer1, idI1))
                 cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer2, idI2))
                 cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer3, idI3))
-                mysql.connection.commit()
+                mysql.get_db().commit()
     return redirect(url_for('modifyquestion'))
