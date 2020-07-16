@@ -150,6 +150,14 @@ def delUser(id):
     flash(u'El usuario se elimino existosamente', 'success')
     return redirect(url_for("modify_user"))
 
+@app.route('/dashboard/deleteTest/<id>')
+def delTest(id):
+    cur = mysql.get_db().cursor()
+    cur.execute('DELETE FROM EXAMEN WHERE EXM_CODIGO = %s', (id,))
+    mysql.get_db().commit()
+    flash(u'El examen se eliminó existosamente', 'success')
+    return redirect(url_for("exams"))
+
 
 def allowed_image(filename):
     
