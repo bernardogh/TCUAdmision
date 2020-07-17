@@ -263,7 +263,7 @@ def allowed_image_filesize(filesize):
         return False
 
 
-@app.route('/dashboard/modifyquestion/<id>')
+@app.route('/dashboard/modifyquestionQ/<id>')
 def modifyquestionQ(id):
     cur = mysql.get_db().cursor()
     cur.execute('SELECT * FROM PREGUNTA INNER JOIN PRES_COMPUESTA_RESP ON PRES_COMPUESTA_RESP.CODIGO_PREGUNTA = PREGUNTA.CODIGO_PREGUNTA INNER JOIN RESPUESTA ON RESPUESTA.RESP_CODIGO = PRES_COMPUESTA_RESP.RESP_CODIGO WHERE PREGUNTA.CODIGO_PREGUNTA = %s;', (id,))
