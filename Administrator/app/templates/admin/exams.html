@@ -24,8 +24,8 @@
       				<td>{{exam.2}}</td>
       				<td>{{exam.1}}</td>
       				<td><a href="/dashboard/modifyQuestion" class="btn btn-warning"><i class='fas fa-pen' style="color:white;"></i></a></td>
-					<td><a href="/dashboard/addquestion" class="btn btn-success"><i class='fa fa-question' style="color:white;"></i></a></td>
-					<td><a href="/dashboard/modify-question" class="btn btn-warning"><i class='fa fa-question' style="color:white;"></i></a></td>
+					<td><a href="/dashboard/addquestion/{{exam.0}}" class="btn btn-success"><i class='fa fa-question' style="color:white;"></i></a></td>
+					<td><a href="/dashboard/modify-question/{{exam.0}}" class="btn btn-warning"><i class='fa fa-question' style="color:white;"></i></a></td>
 					<td><a href="/dashboard/deleteTest/{{exam.0}}" class="btn btn-danger"><i class='fas fa-times' style="color:white;"></i></a></td>
 				</tr>
     			{% endfor %}

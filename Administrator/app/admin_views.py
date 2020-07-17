@@ -183,16 +183,24 @@ def allowed_image(filename):
     else:
         return False
 
-@app.route('/dashboard/modify-question')
-def modifyquestion():
+@app.route('/dashboard/modify-question/<testID>')
+def modifyquestion(testID):
     cur = mysql.get_db().cursor()
-    cur.execute('SELECT * FROM PREGUNTA')
+    cur.execute('SELECT CODIGO_PREGUNTA FROM EX_CONTIENE_PRE WHERE EXM_CODIGO = %s',(testID))
+    questionsCodes = cur.fetchall()
+    codes = "("
+    for question in questionsCodes:
+        codes += str(question[0])
+        codes += ","
+    codes = codes[:-1]
+    codes += ")"
+    cur.execute('SELECT * FROM PREGUNTA WHERE CODIGO_PREGUNTA IN '+ (codes))
     data = cur.fetchall()
-    return render_template('admin/modifyquestion.html', questions=data)
+    return render_template('admin/modifyquestion.html', questions = data)
 
 
-@app.route('/dashboard/addquestion', methods=["GET", "POST"])
-def addquestion():
+@app.route('/dashboard/addquestion/<examID>', methods=["GET", "POST"])
+def addquestion(examID):
     if request.method == "POST":
         question = "\\[ "+ request.form['pregunta'] + " \\]" 
         answer = "\\[ "+ request.form['respuesta'] + " \\]"
@@ -234,6 +242,8 @@ def addquestion():
                     cur.execute('INSERT INTO RESPUESTA (RESP_CORRECTO, TEXTO_RESPUESTA) VALUES (%s,%s)', (False, answer3))
                     id_respuesta = cur.lastrowid
                     cur.execute('INSERT INTO PRES_COMPUESTA_RESP (RESP_CODIGO, CODIGO_PREGUNTA) VALUES (%s,%s)', (id_respuesta, idpregunta,))
+
+                    cur.execute ('INSERT INTO EX_CONTIENE_PRE (CODIGO_PREGUNTA, EXM_CODIGO) VALUES (%s, %s)', (idpregunta, examID))
                     mysql.get_db().commit()
                     flash('Se ha insertado correctamente','success')
                     return render_template('admin/addquestion.html') 
@@ -244,7 +254,7 @@ def addquestion():
         else:
             flash("No image selected", "danger")
             return redirect(request.url)
-    return render_template('admin/addquestion.html') 
+    return render_template('admin/addquestion.html', testID = examID) 
 
 def allowed_image_filesize(filesize):    
     if int(filesize) <= app.config["MAX_IMAGE_FILESIZE"]:
