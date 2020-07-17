@@ -121,6 +121,18 @@ def exams():
     data = cur.fetchall()
     return render_template('admin/exams.html', exams = data)
 
+@app.route("/dashboard/exams/addNew", methods=["POST"])
+def examsAdd():
+    name = request.form['name']
+    year = float(request.form['year'])
+    cur = mysql.get_db().cursor()
+    cur.execute('INSERT INTO EXAMEN (ANHO, NOMBRE) VALUES (%s,%s)', (year, name))
+    mysql.get_db().commit()
+    flash(u'El examen se guardo existosamente', 'success')
+    cur.execute('SELECT * FROM EXAMEN')
+    data = cur.fetchall()
+    return render_template('admin/exams.html', exams = data)
+
 @app.route("/dashboard/mu/<id>")
 def modifyUser(id):
     cur = mysql.get_db().cursor()
