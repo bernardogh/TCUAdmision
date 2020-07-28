@@ -5,8 +5,11 @@
 	<br>
 	<div class="container bg-white w-75 p-4 scroll-down shadow-sm">
 		<h2 class="text-center">Exámenes  </h2>
-		
-		<table class="table">
+	<div class="container text-center">
+			<a class="btn btn-primary text-center" href="/dashboard/addexam" role="button">Agregar Nuevo</a>
+	</div>
+	<br>
+		<table class="table" >
   			<caption>Lista de Exámenes</caption>
   			<thead>
     			<tr>
@@ -23,17 +26,15 @@
     			<tr>
       				<td>{{exam.2}}</td>
       				<td>{{exam.1}}</td>
-      				<td><a href="/dashboard/modifyQuestion" class="btn btn-warning"><i class='fas fa-pen' style="color:white;"></i></a></td>
+      				<td><a href="/dashboard/exams/modify/{{exam.0}}" class="btn btn-warning"><i class='fas fa-pen' style="color:white;"></i></a></td>
 					<td><a href="/dashboard/addquestion/{{exam.0}}" class="btn btn-success"><i class='fa fa-question' style="color:white;"></i></a></td>
-					<td><a href="/dashboard/modify-question/{{exam.0}}" class="btn btn-warning"><i class='fa fa-question' style="color:white;"></i></a></td>
+					<td><a href="/dashboard/modify-question/{{exam.0}}" class="btn btn-info"><i class='fa fa-question' style="color:white;"></i></a></td>
 					<td><a href="/dashboard/deleteTest/{{exam.0}}" class="btn btn-danger"><i class='fas fa-times' style="color:white;"></i></a></td>
 				</tr>
     			{% endfor %}
   			</tbody>
 		</table>
-		<div class="container text-center">
-			<a class="btn btn-primary text-center" href="/dashboard/addexam" role="button">Agregar Nuevo</a>
-	</div>
+		
 	</div>
 
 </div>

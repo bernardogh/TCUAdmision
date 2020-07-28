@@ -93,6 +93,23 @@ def create_exam():
         flash('Debes iniciar sesion...!!!')
         return redirect(url_for("login"))
 
+@app.route("/dashboard/exams/modify/<testID>")
+def modifyExam(testID):
+    cur = mysql.get_db().cursor()
+    cur.execute('SELECT * FROM EXAMEN WHERE EXM_CODIGO = %s',(testID))
+    data = cur.fetchall()
+    print(data)
+    return render_template('admin/modifyExam.html', test = data[0])
+
+@app.route("/dashboard/exams/modifyTest/<testID>", methods=["POST"])
+def modifyTest(testID):
+    name = request.form['name']
+    year = request.form['year']
+    cur = mysql.get_db().cursor()
+    cur.execute('UPDATE EXAMEN SET NOMBRE=%s, ANHO=%s WHERE EXM_CODIGO = %s', (name, year, testID))
+    mysql.get_db().commit()
+    flash(u'El examen se modificó existosamente', 'success')
+    return redirect(url_for('exams'))
 
 @app.route("/dashboard/create_user/save", methods=["POST"])
 def saveuser():
@@ -185,9 +202,12 @@ def allowed_image(filename):
 
 @app.route('/dashboard/modify-question/<testID>')
 def modifyquestion(testID):
+    
     cur = mysql.get_db().cursor()
     cur.execute('SELECT CODIGO_PREGUNTA FROM EX_CONTIENE_PRE WHERE EXM_CODIGO = %s',(testID))
     questionsCodes = cur.fetchall()
+    if not questionsCodes:
+        return render_template('admin/modifyquestion.html')
     codes = "("
     for question in questionsCodes:
         codes += str(question[0])
@@ -196,7 +216,7 @@ def modifyquestion(testID):
     codes += ")"
     cur.execute('SELECT * FROM PREGUNTA WHERE CODIGO_PREGUNTA IN '+ (codes))
     data = cur.fetchall()
-    return render_template('admin/modifyquestion.html', questions = data)
+    return render_template('admin/modifyquestion.html', questions = data, examID = testID)
 
 
 @app.route('/dashboard/addquestion/<examID>', methods=["GET", "POST"])
@@ -263,22 +283,23 @@ def allowed_image_filesize(filesize):
         return False
 
 
-@app.route('/dashboard/modifyquestionQ/<id>')
-def modifyquestionQ(id):
+@app.route('/dashboard/modifyquestionQ/<id>,<examID>')
+def modifyquestionQ(id,examID):
     cur = mysql.get_db().cursor()
     cur.execute('SELECT * FROM PREGUNTA INNER JOIN PRES_COMPUESTA_RESP ON PRES_COMPUESTA_RESP.CODIGO_PREGUNTA = PREGUNTA.CODIGO_PREGUNTA INNER JOIN RESPUESTA ON RESPUESTA.RESP_CODIGO = PRES_COMPUESTA_RESP.RESP_CODIGO WHERE PREGUNTA.CODIGO_PREGUNTA = %s;', (id,))
     question = cur.fetchall()
-    return render_template('admin/modifyspecificQ.html', question=question)
+    return render_template('admin/modifyspecificQ.html', question=question, testID = examID)
 
 
-@app.route('/dashboard/mud', methods=["GET","POST"])
-def mud():
+@app.route('/dashboard/mud/<examID>', methods=["GET","POST"])
+def mud(examID):
     if request.method == "POST":
         print('--------------------------')
         print(request.url)
         print('--------------------------')
         question = request.form['pregunta']
         idQ = request.form['id1']
+        print(idQ)
         answer = request.form['respuesta']
         idC = request.form['respC']
         idI1 = request.form['respI1']
@@ -311,4 +332,5 @@ def mud():
                 cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer2, idI2))
                 cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer3, idI3))
                 mysql.get_db().commit()
-    return redirect(url_for('modifyquestion'))
+                flash('Se ha modificado correctamente','success')
+    return redirect(url_for("modifyquestion", testID = examID))

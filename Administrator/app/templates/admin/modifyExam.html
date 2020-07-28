@@ -1,0 +1,28 @@
+{% extends 'admin/templates/layout_dashboard.html' %}
+
+{% block body %}
+<div class="container-fluid mx-auto bg-light mheight containBar">
+	<br>
+	<div class="container bg-white w-50 p-4 scroll-down shadow-sm">
+		<form action="/dashboard/exams/modifyTest/{{test.0}}" method="POST">
+                    <div class="text-center">
+                        <h1><i class='fa fa-file'></i>&nbsp;Modificar Examen</h1>
+                        
+                        <hr>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nombre</label>
+                        <input type="text" name="name" class="form-control rounded-pill"
+                            placeholder="Digite el nombre del examen..." value ="{{test.2}}"
+                            aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Año</label>
+                        <input type="text" name="year" class="form-control rounded-pill" value ="{{test.1}}"
+                            placeholder="Digite el año del examen..." required>
+                    </div>                   
+                    <button type="submit" class="btn btn-primary btn-block rounded-pill">Ingresar</button>
+                </form>
+	</div>
+</div>
+{% endblock %}
