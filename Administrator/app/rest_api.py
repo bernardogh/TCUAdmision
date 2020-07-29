@@ -44,7 +44,7 @@ def questionFromExam(EXM_CODIGO):
 @app.route('/answersFromQuestion/<int:CODIGO_PREGUNTA>', methods=["GET"])
 def answersFromQuestion(CODIGO_PREGUNTA):
     cur = mysql.get_db().cursor() 
-    cur.execute('select * from admisionucr.respuesta INNER JOIN admisionucr.pres_compuesta_resp on admisionucr.respuesta.RESP_CODIGO = admisionucr.pres_compuesta_resp.RESP_CODIGO where CODIGO_PREGUNTA ='  + str(CODIGO_PREGUNTA))
+    cur.execute('select * from admisionucr.respuesta INNER JOIN admisionucr.pres_compuesta_resp on admisionucr.respuesta.RESP_CODIGO = admisionucr.pres_compuesta_resp.RESP_CODIGO where CODIGO_PREGUNTA ='  + str(CODIGO_PREGUNTA) + ' ORDER BY RAND() ')
     data = cur.fetchall()
     items = []
     for answers in data:
@@ -58,7 +58,7 @@ def answersById(CODIGO_PREGUNTA):
     data = cur.fetchall()
     items = []
     for answer in data:
-        items.append({"CODIGO_PREGUNTA":answer[0],"TEXTO_PREGUNTA":answer[3]})
+        items.append({"CODIGO_PREGUNTA":answer[0],"PREGUNTA_IMAGEN":answer[1],"TEXTO_PREGUNTA":answer[3]})
     return jsonify({'answer':items})
 
 
