@@ -222,58 +222,55 @@ def modifyquestion(testID):
 @app.route('/dashboard/addquestion/<examID>', methods=["GET", "POST"])
 def addquestion(examID):
     if request.method == "POST":
-        question = "\\[ "+ request.form['pregunta'] + " \\]" 
-        answer = "\\[ "+ request.form['respuesta'] + " \\]"
-        link = request.form['enlace']
-        answer1 = "\\[ "+ request.form['respuesta1'] + " \\]"
-        answer2 = "\\[ "+ request.form['respuesta2'] + " \\]"
-        answer3 = "\\[ "+ request.form['respuesta3'] + " \\]"
+        question = request.form['pregunta'] 
+        answer =   request.form['respuesta'] 
+        link =     request.form['enlace']
+        answer1 =  request.form['respuesta1']
+        answer2 =  request.form['respuesta2']
+        answer3 =  request.form['respuesta3'] 
         if request.files:
-            print('asdasdadasdddddddddddddddd')
+            print(request.cookies)
             if "filesize" in request.cookies:
                 if not allowed_image_filesize(request.cookies["filesize"]):
-                    flash("Filesize exceeded maximum limit", "danger")
+                    flash("La imagen excede el límite de tamaño", "danger")
                     return redirect(request.url)
                 image = request.files["imgInp"]
-                if image.filename == "":
-                    flash("No filename", "danger")
-                    return redirect(request.url)
+                #if image.filename == "":
+                    #flash("No filename", "danger")
+                    #return redirect(request.url)
                 if allowed_image(image.filename):
                     image_string = base64.b64encode(image.read())
-                    cur = mysql.get_db().cursor()
-                    
-                    print('------------------------')
-                    print(question)
-                    print('------------------------')
-                    cur.execute('INSERT INTO PREGUNTA (PREGUNTA_IMAGEN, PREGUNTA_ENLACE, TEXTO_PREGUNTA) VALUES (%s,%s,%s)', (image_string, link, question))
-                    idpregunta = cur.lastrowid
-                    cur.execute('INSERT INTO RESPUESTA (RESP_CORRECTO, TEXTO_RESPUESTA) VALUES (%s,%s)', (True, answer,))
-                    id_respuesta = cur.lastrowid
-                    cur.execute('INSERT INTO PRES_COMPUESTA_RESP (RESP_CODIGO, CODIGO_PREGUNTA) VALUES (%s,%s)', (id_respuesta, idpregunta,))
-
-                    cur.execute('INSERT INTO RESPUESTA (RESP_CORRECTO, TEXTO_RESPUESTA) VALUES (%s,%s)', (False, answer1,))
-                    id_respuesta = cur.lastrowid
-                    cur.execute('INSERT INTO PRES_COMPUESTA_RESP (RESP_CODIGO, CODIGO_PREGUNTA)  VALUES (%s,%s)', (id_respuesta, idpregunta,))
-
-                    cur.execute('INSERT INTO RESPUESTA (RESP_CORRECTO, TEXTO_RESPUESTA) VALUES (%s,%s)', (False, answer2,))
-                    id_respuesta = cur.lastrowid
-                    cur.execute('INSERT INTO PRES_COMPUESTA_RESP (RESP_CODIGO, CODIGO_PREGUNTA)  VALUES (%s,%s)', (id_respuesta, idpregunta,))
-
-                    cur.execute('INSERT INTO RESPUESTA (RESP_CORRECTO, TEXTO_RESPUESTA) VALUES (%s,%s)', (False, answer3))
-                    id_respuesta = cur.lastrowid
-                    cur.execute('INSERT INTO PRES_COMPUESTA_RESP (RESP_CODIGO, CODIGO_PREGUNTA) VALUES (%s,%s)', (id_respuesta, idpregunta,))
-
-                    cur.execute ('INSERT INTO EX_CONTIENE_PRE (CODIGO_PREGUNTA, EXM_CODIGO) VALUES (%s, %s)', (idpregunta, examID))
-                    mysql.get_db().commit()
-                    flash('Se ha insertado correctamente','success')
-                    return render_template('admin/addquestion.html') 
                 else:
-
-                    flash("That file extension is not allowed", "danger")
+                    flash("Imagen no válida", "danger")
                     return redirect(request.url)
-        else:
-            flash("No image selected", "danger")
-            return redirect(request.url)
+                
+        cur = mysql.get_db().cursor() 
+
+        cur.execute('INSERT INTO PREGUNTA (PREGUNTA_IMAGEN, PREGUNTA_ENLACE, TEXTO_PREGUNTA) VALUES (%s,%s,%s)', (image_string, link, question))
+        idpregunta = cur.lastrowid
+        cur.execute('INSERT INTO RESPUESTA (RESP_CORRECTO, TEXTO_RESPUESTA) VALUES (%s,%s)', (True, answer,))
+        id_respuesta = cur.lastrowid
+        cur.execute('INSERT INTO PRES_COMPUESTA_RESP (RESP_CODIGO, CODIGO_PREGUNTA) VALUES (%s,%s)', (id_respuesta, idpregunta,))
+
+        cur.execute('INSERT INTO RESPUESTA (RESP_CORRECTO, TEXTO_RESPUESTA) VALUES (%s,%s)', (False, answer1,))
+        id_respuesta = cur.lastrowid
+        cur.execute('INSERT INTO PRES_COMPUESTA_RESP (RESP_CODIGO, CODIGO_PREGUNTA)  VALUES (%s,%s)', (id_respuesta, idpregunta,))
+
+        cur.execute('INSERT INTO RESPUESTA (RESP_CORRECTO, TEXTO_RESPUESTA) VALUES (%s,%s)', (False, answer2,))
+        id_respuesta = cur.lastrowid
+        cur.execute('INSERT INTO PRES_COMPUESTA_RESP (RESP_CODIGO, CODIGO_PREGUNTA)  VALUES (%s,%s)', (id_respuesta, idpregunta,))
+
+        cur.execute('INSERT INTO RESPUESTA (RESP_CORRECTO, TEXTO_RESPUESTA) VALUES (%s,%s)', (False, answer3))
+        id_respuesta = cur.lastrowid
+        cur.execute('INSERT INTO PRES_COMPUESTA_RESP (RESP_CODIGO, CODIGO_PREGUNTA) VALUES (%s,%s)', (id_respuesta, idpregunta,))
+
+        cur.execute ('INSERT INTO EX_CONTIENE_PRE (CODIGO_PREGUNTA, EXM_CODIGO) VALUES (%s, %s)', (idpregunta, examID))
+        mysql.get_db().commit()
+        flash('Se ha insertado correctamente','success')
+        return render_template('admin/addquestion.html')
+        #else:
+            #flash("No image selected", "danger")
+            #return redirect(request.url)
     return render_template('admin/addquestion.html', testID = examID) 
 
 def allowed_image_filesize(filesize):    
@@ -294,9 +291,6 @@ def modifyquestionQ(id,examID):
 @app.route('/dashboard/mud/<examID>', methods=["GET","POST"])
 def mud(examID):
     if request.method == "POST":
-        print('--------------------------')
-        print(request.url)
-        print('--------------------------')
         question = request.form['pregunta']
         idQ = request.form['id1']
         print(idQ)
@@ -311,6 +305,7 @@ def mud(examID):
         answer3 = request.form['respuesta3']
         cur = mysql.get_db().cursor()
         if request.files:
+            print(request.cookies)
             if "filesize" in request.cookies:
                 if not allowed_image_filesize(request.cookies["filesize"]):
                     flash("Filesize exceeded maximum limit", "danger")

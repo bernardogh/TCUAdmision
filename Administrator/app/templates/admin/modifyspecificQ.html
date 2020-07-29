@@ -1,7 +1,8 @@
 {% extends 'admin/templates/layout_dashboard.html' %}
 
-{% block body %}
+{% block body%}
 
+<body onload="resetCookie();">
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script>
@@ -222,128 +223,134 @@
 
   function filesize(elem) {
     document.cookie = `filesize=${elem.files[0].size}`
+    alert(document.cookie)
+  }
+
+  function resetCookie() {
+    document.cookie = `filesize=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`
   }
 </script>
 
 <div class="container-fluid mx-auto bg-light mheight containBar">
   <br>
-  <form action="/dashboard/mud/{{testID}}" method="POST" enctype="multipart/form-data">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="container bg-white w-100 p-4 scroll-down shadow-sm">
+  <div class="container bg-white w-50 p-4 scroll-down shadow-sm">
 
-          <div class="text-center">
-            <h1><i class='fas fa-question'></i>&nbsp;Agregar Pregunta</h1>
-            <p>\[ \text{Cuando }a \ne 0\text{, existen 2 soluciones para }ax^2 + bx + c = 0\text{ las cuales son: }
-              x = {-b \pm \sqrt{b^2-4ac} \over 2a} \]</p>
-            <hr>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Digite su pregunta</label>
-            <input type="hidden" name="id1" value="{{question.0.5}}">
-            <textarea class="form-control" name="pregunta" id="input" onmouseover="convert()" oninput="convert()"
-              rows="5">{{question.0.3}}</textarea>
-          </div>
+    <form action="/dashboard/mud/{{testID}}" method="POST" enctype="multipart/form-data">
 
-          <div class="form-group">
-            <label for="exampleInputPassword1">Seleccionar imagen</label>
-            <div class="input-group mb-3">
+      <div class="text-center">
+        <h1><i class='fas fa-question'></i>&nbsp;Modificar Pregunta</h1>
+        <p>\[ \text{Cuando }a \ne 0\text{, existen 2 soluciones para }ax^2 + bx + c = 0\text{ las cuales son: }
+          x = {-b \pm \sqrt{b^2-4ac} \over 2a} \]</p>
+        <hr>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Digite su pregunta</label>
+        <input type="hidden" name="id1" value="{{question.0.5}}">
+        <textarea class="form-control" name="pregunta" id="input" onmouseover="convert()" oninput="convert()"
+          rows="5">{{question.0.3}}</textarea>
+      </div>
 
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroupFileAddon01">Subir</span>
-            </div>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input " oninput="filesize(this);" name="imgInp" id="imgInp" width="400px" height="400px" aria-describedby="inputGroupFileAddon01">
-              <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen</label>
-            </div>
-          </div>
-          <img id="blah" class="img-fluid img-thumbnail" onclick="window.open(this.src)" src="data:image/jpeg;base64, {{question.0.1}}" alt="Imagen insertada" />
-          <div id="myModal" class="modal">
-              <span class="close">&times;</span>
-              <img class="modal-content" id="img01">
-              <div id="caption"></div>
-          </div>
-          </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Seleccionar imagen</label>
+        <div class="input-group mb-3">
 
-          <div class="form-group">
-            <label for="exampleInputPassword1">Enlace</label>
-            <input type="enlace" name="enlace" class="form-control rounded-pill" placeholder="Digite su enlace..."
-              value="{{question.0.2}}">
-          </div>
-          <div class="container bg-white w-100 p-4 scroll-down shadow-sm">
-            <div class="text-center">
-              <h5><i class='fas fa-check'></i>&nbsp;Respuesta Correcta</h5>
-              <hr>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Digite su respuesta</label>
-              <input type="hidden" name="respC" value="{{question.0.4}}">
-                          <textarea class="form-control" name="respuesta" id="input1" onmouseover="convert1()" oninput="convert1()" rows="2">{{question.0.8}}
-                          </textarea>
-            </div>
-            <div class="text-center">
-              <h5><i class='fas fa-check'></i>&nbsp;Respuesta Incorrecta 1</h5>
-              <hr>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Digite su respuesta</label>
-              <input type="hidden" name="respI1" value="{{question.1.4}}">
-          <textarea class="form-control" id="input2" name="respuesta1" onmouseover="convert2()" oninput="convert2()" rows="2">{{question.1.8}}</textarea>
-            </div>
-            <div class="text-center">
-              <h5><i class='fas fa-check'></i>&nbsp;Respuesta Incorrecta 2</h5>
-              <hr>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Digite su respuesta</label>
-              <input type="hidden" name="respI2" value="{{question.2.4}}">
-                <textarea class="form-control" id="input3" name="respuesta2" onmouseover="convert3()" oninput="convert3()" rows="2">{{question.2.8}}</textarea>
-            </div>
-            <div class="text-center">
-              <h5><i class='fas fa-check'></i>&nbsp;Respuesta Incorrecta 3</h5>
-              <hr>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Digite su respuesta</label>
-              <input type="hidden" name="respI3" value="{{question.3.4}}">
-          <textarea class="form-control" name="respuesta3" id="input4" onmouseover="convert4()" oninput="convert4()" rows="2">{{question.3.8}}</textarea>
-            </div>
-          </div>
-
-
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroupFileAddon01">Subir</span>
+        </div>
+        <div class="custom-file">
+          <input type="file" class="custom-file-input " oninput="filesize(this);" name="imgInp" id="imgInp" width="400px" height="400px" aria-describedby="inputGroupFileAddon01">
+          <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen</label>
         </div>
       </div>
-      <div class="col-md-6">
-        <h1><i class='fa fa-eye'></i>&nbsp;Vista Previa</h1>
-        <div class="container bg-white w-100 p-4 scroll-down shadow-sm">
-          <div class="form-group ">
-            <label for="exampleInputPassword1">Pregunta:</label>
-            <div id="output" class="text-left">
-            </div>
-          </div>
-        </div>
-        <img id="blah" class="img-fluid img-thumbnail" onclick="window.open(this.src)" alt="Imagen insertada"
-          style="display: none;" />
-        <div id="myModal" class="modal">
+      <img id="blah" class="img-fluid img-thumbnail" onclick="window.open(this.src)" src="data:image/jpeg;base64, {{question.0.1}}" alt="Imagen insertada" />
+      <div id="myModal" class="modal">
           <span class="close">&times;</span>
           <img class="modal-content" id="img01">
           <div id="caption"></div>
+      </div>
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Enlace</label>
+        <input type="enlace" name="enlace" class="form-control rounded-pill" placeholder="Digite su enlace..."
+          value="{{question.0.2}}">
+      </div>
+      <div class="container bg-white w-100 p-4 scroll-down shadow-sm">
+        <div class="text-center">
+          <h5><i class='fas fa-check'></i>&nbsp;Respuesta Correcta</h5>
+          <hr>
         </div>
-        <div class="container bg-white w-100 p-4 scroll-down shadow-sm">
-          <div class="form-group ">
-            <label for="exampleInputPassword1" class="text-success">Respuesta 1</label>
-            <div id="output1" class="text-left text-success">
-            </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Digite su respuesta</label>
+          <input type="hidden" name="respC" value="{{question.0.4}}">
+                      <textarea class="form-control" name="respuesta" id="input1" onmouseover="convert1()" oninput="convert1()" rows="2">{{question.0.8}}
+                      </textarea>
+        </div>
+        <div class="text-center">
+          <h5><i class='fas fa-check'></i>&nbsp;Respuesta Incorrecta 1</h5>
+          <hr>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Digite su respuesta</label>
+          <input type="hidden" name="respI1" value="{{question.1.4}}">
+      <textarea class="form-control" id="input2" name="respuesta1" onmouseover="convert2()" oninput="convert2()" rows="2">{{question.1.8}}</textarea>
+        </div>
+        <div class="text-center">
+          <h5><i class='fas fa-check'></i>&nbsp;Respuesta Incorrecta 2</h5>
+          <hr>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Digite su respuesta</label>
+          <input type="hidden" name="respI2" value="{{question.2.4}}">
+            <textarea class="form-control" id="input3" name="respuesta2" onmouseover="convert3()" oninput="convert3()" rows="2">{{question.2.8}}</textarea>
+        </div>
+        <div class="text-center">
+          <h5><i class='fas fa-check'></i>&nbsp;Respuesta Incorrecta 3</h5>
+          <hr>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Digite su respuesta</label>
+          <input type="hidden" name="respI3" value="{{question.3.4}}">
+      <textarea class="form-control" name="respuesta3" id="input4" onmouseover="convert4()" oninput="convert4()" rows="2">{{question.3.8}}</textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success btn-block rounded-pill">Guardar Pregunta</button>
+
+    </form>
+  </div>
+
+  <!--<div class="col-md-6">
+        <h1><i class='fa fa-eye'></i>&nbsp;Vista Previa</h1>
+        <div class="container bg-white w-100 p-4 scroll-down shadow-sm">     
+        <div class="form-group ">
+          <label for="exampleInputPassword1">Pregunta:</label>
+          <div id="output" class="text-left">
           </div>
         </div>
-        <div class="container bg-white w-100 p-4 scroll-down shadow-sm">
+        </div>
+        <img id="blah" class="img-fluid img-thumbnail" onclick="window.open(this.src)" alt="Imagen insertada"
+              style="display: none;" />
+            <div id="myModal" class="modal">
+              <span class="close">&times;</span>
+              <img class="modal-content" id="img01">
+              <div id="caption"></div>
+            </div>
+        <div class="container bg-white w-100 p-4 scroll-down shadow-sm">     
+        <div class="form-group ">
+          <label for="exampleInputPassword1" class="text-success">Respuesta 1</label>
+          <div id="output1" class="text-left text-success">
+          </div>
+        </div>
+        </div>
+        <div class="container bg-white w-100 p-4 scroll-down shadow-sm">     
           <div class="form-group ">
             <label for="exampleInputPassword1" class="text-danger">Respuesta 2</label>
             <div id="output2" class="text-left text-danger">
             </div>
           </div>
         </div>
-        <div class="container bg-white w-100 p-4 pt-2 scroll-down shadow-sm">
+        <div class="container bg-white w-100 p-4 pt-2 scroll-down shadow-sm">         
           <div class="form-group ">
             <label for="exampleInputPassword1" class="text-danger">Respuesta 3</label>
             <div id="output3" class="text-left text-danger">
@@ -351,7 +358,7 @@
           </div>
         </div>
         <div class="container bg-white w-100 p-4 pt-2 scroll-down shadow-sm">
-
+          
           <div class="form-group ">
             <label for="exampleInputPassword1" class="text-danger">Respuesta 4</label>
             <div id="output4" class="text-left text-danger">
@@ -360,13 +367,13 @@
         </div>
 
         <button type="submit" class="btn btn-success btn-block rounded-pill">Guardar Pregunta</button>
-      </div>
-    </div>
-    <br>
+      </div>-->
 
-    <br><br>
-  </form>
-</div>
+  <br>
+
+  <br><br>
 
 </div>
+
+</body>
 {% endblock %}

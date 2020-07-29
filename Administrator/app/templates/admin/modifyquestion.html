@@ -6,7 +6,11 @@
 	<div class="container bg-white rounded shadow">
 		<div class="container">
 			<br>
-			<h1 class="text-center">Modificar Preguntas</h1>
+      <h1 class="text-center">Preguntas del examen</h1>
+      <div class="container text-center">
+        <a class="btn btn-success text-center" href="/dashboard/addquestion/{{examID}}" role="button">Agregar pregunta</a>
+    </div>
+    <br>
 			<table class="table">
   <thead>
     <tr>
@@ -20,8 +24,8 @@
   	{%for question in questions%}
 	<tr>
       <th scope="row">{{question.0}}</th>
-      <td onload="convert()">{{question.3}}</td>
-      <td onload="convert()">{{question.2}}</td>
+      <td>{{question.3}}</td>
+      <td>{{question.2}}</td>
       <td><a href="/dashboard/modifyquestionQ/{{question.0}},{{examID}}" class="btn btn-warning"><i class='fas fa-pen' style="color:white;"></i></a>&nbsp;<a href="/dashboard/modifyquestion/{{question.0}}" class="btn btn-danger"><i class='fas fa-times' style="color:white;"></i></a></td>
     </tr>
 {%endfor%}
