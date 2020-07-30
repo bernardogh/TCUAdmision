@@ -223,7 +223,7 @@
 
   function filesize(elem) {
     document.cookie = `filesize=${elem.files[0].size}`
-    alert(document.cookie)
+    document.getElementById('imgSize').value = elem.files[0].size
   }
 
   function resetCookie() {
@@ -287,7 +287,7 @@
                       </textarea>
         </div>
         <div class="text-center">
-          <h5><i class='fas fa-check'></i>&nbsp;Respuesta Incorrecta 1</h5>
+          <h5><i class='fa fa-times-circle'></i>&nbsp;Respuesta Incorrecta 1</h5>
           <hr>
         </div>
         <div class="form-group">
@@ -296,7 +296,7 @@
       <textarea class="form-control" id="input2" name="respuesta1" onmouseover="convert2()" oninput="convert2()" rows="2">{{question.1.8}}</textarea>
         </div>
         <div class="text-center">
-          <h5><i class='fas fa-check'></i>&nbsp;Respuesta Incorrecta 2</h5>
+          <h5><i class='fa fa-times-circle'></i>&nbsp;Respuesta Incorrecta 2</h5>
           <hr>
         </div>
         <div class="form-group">
@@ -305,7 +305,7 @@
             <textarea class="form-control" id="input3" name="respuesta2" onmouseover="convert3()" oninput="convert3()" rows="2">{{question.2.8}}</textarea>
         </div>
         <div class="text-center">
-          <h5><i class='fas fa-check'></i>&nbsp;Respuesta Incorrecta 3</h5>
+          <h5><i class='fa fa-times-circle'></i>&nbsp;Respuesta Incorrecta 3</h5>
           <hr>
         </div>
         <div class="form-group">
@@ -316,7 +316,7 @@
       </div>
 
       <button type="submit" class="btn btn-success btn-block rounded-pill">Guardar Pregunta</button>
-
+      <p hidden><input type="text" name="imageSize" id="imgSize" value="x_1"></p>
     </form>
   </div>
 

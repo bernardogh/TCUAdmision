@@ -207,7 +207,7 @@ def modifyquestion(testID):
     cur.execute('SELECT CODIGO_PREGUNTA FROM EX_CONTIENE_PRE WHERE EXM_CODIGO = %s',(testID))
     questionsCodes = cur.fetchall()
     if not questionsCodes:
-        return render_template('admin/modifyquestion.html')
+        return render_template('admin/modifyquestion.html', examID = testID)
     codes = "("
     for question in questionsCodes:
         codes += str(question[0])
@@ -228,6 +228,7 @@ def addquestion(examID):
         answer1 =  request.form['respuesta1']
         answer2 =  request.form['respuesta2']
         answer3 =  request.form['respuesta3'] 
+        image_string = ""
         if request.files:
             print(request.cookies)
             if "filesize" in request.cookies:
@@ -303,29 +304,32 @@ def mud(examID):
         answer1 = request.form['respuesta1']
         answer2 = request.form['respuesta2']
         answer3 = request.form['respuesta3']
+        fileSize = request.form['imageSize']
         cur = mysql.get_db().cursor()
+
         if request.files:
-            print(request.cookies)
-            if "filesize" in request.cookies:
-                if not allowed_image_filesize(request.cookies["filesize"]):
-                    flash("Filesize exceeded maximum limit", "danger")
+            print(fileSize) 
+            if fileSize != "x_1":
+                if not allowed_image_filesize(fileSize):
+                    flash("La imagen excede el límite de tamaño", "danger")
                     return redirect(request.url)
                 image = request.files["imgInp"]
-                if image.filename == "":
-                    flash("No filename", "danger")
-                    return redirect(request.url)
+                #if image.filename == "":
+                    #flash("No filename", "danger")
+                    #return redirect(request.url)
                 if allowed_image(image.filename):
                     image_string = base64.b64encode(image.read())
-                    cur.execute('UPDATE PREGUNTA SET PREGUNTA_IMAGEN = %s, PREGUNTA_ENLACE=%s, TEXTO_PREGUNTA=%s WHERE CODIGO_PREGUNTA=%s', (image_string, link, question, idQ))
-            else:
-                print('--------------------------')
-                print(idQ)
-                print('--------------------------')
-                cur.execute('UPDATE PREGUNTA SET PREGUNTA_ENLACE=%s, TEXTO_PREGUNTA=%s WHERE CODIGO_PREGUNTA=%s', (link, question, idQ))
-                cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer, idC))
-                cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer1, idI1))
-                cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer2, idI2))
-                cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer3, idI3))
-                mysql.get_db().commit()
-                flash('Se ha modificado correctamente','success')
+                    cur.execute('UPDATE PREGUNTA SET PREGUNTA_IMAGEN = %s WHERE CODIGO_PREGUNTA=%s', (image_string, idQ))
+                else:
+                    flash("Imagen no válida", "danger")
+                    return redirect(request.url)
+            
+   
+        cur.execute('UPDATE PREGUNTA SET PREGUNTA_ENLACE=%s, TEXTO_PREGUNTA=%s WHERE CODIGO_PREGUNTA=%s', (link, question, idQ))
+        cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer, idC))
+        cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer1, idI1))
+        cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer2, idI2))
+        cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer3, idI3))
+        mysql.get_db().commit()
+        flash('Se ha modificado correctamente','success')
     return redirect(url_for("modifyquestion", testID = examID))
