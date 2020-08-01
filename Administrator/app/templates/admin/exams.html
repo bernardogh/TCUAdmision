@@ -1,6 +1,15 @@
 {% extends "admin/templates/layout_dashboard.html" %}
 
 {% block body %}
+<script>
+	function displayModal(elem){
+		$("#exampleModal").appendTo("body");
+		document.getElementById('testID').value = elem;
+	}
+	function deleteTest (elem){
+		location.href = "/dashboard/deleteTest/" + elem
+	}
+</script>
 <div class="container-fluid mx-auto bg-light mheight containBar">
 	<br>
 	<div class="container bg-white w-75 p-4 scroll-down shadow-sm">
@@ -29,7 +38,7 @@
       				<td>{{exam.1}}</td>
       				<td><a href="/dashboard/exams/modify/{{exam.0}}" class="btn btn-warning"><i class='fas fa-pen' style="color:white;"></i></a></td>
 					<td><a href="/dashboard/modify-question/{{exam.0}}" class="btn btn-info"><i class='fa fa-question' style="color:white;"></i></a></td>
-					<td><a href="/dashboard/deleteTest/{{exam.0}}" class="btn btn-danger"><i class='fas fa-times' style="color:white;"></i></a></td>
+					<td><a class="btn btn-danger" data-toggle="modal" onclick="displayModal('{{exam.0}}')" data-target="#exampleModal"><i class='fas fa-times' style="color:white;"></i></a></td>
 				</tr>
     			{% endfor %}
   			</tbody>
@@ -39,4 +48,26 @@
 
 </div>
 
+<!-- Modal -->
+<div class="modal fade in" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Eliminar examen</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  ¿Está seguro que desea eliminar el examen?<br>
+		  Las preguntas también se borraran
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+		  <button type="button" class="btn btn-danger" onclick="deleteTest(testID.value)"data-dismiss="modal">Eliminar</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+  <p hidden><input type="text" name="testID" id="testID" value="x_1"></p>
 {% endblock %}

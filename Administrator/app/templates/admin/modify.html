@@ -1,6 +1,16 @@
 {% extends "admin/templates/layout_dashboard.html" %}
 
 {% block body %}
+
+<script>
+	function displayModal(elem){
+		$("#exampleModal").appendTo("body");
+		document.getElementById('userID').value = elem;
+	}
+	function deleteUser (elem){
+		location.href = "/dashboard/delete/" + elem
+	}
+</script>
 <div class="container-fluid mx-auto bg-light mheight containBar">
 	<br>
 	<div class="container bg-white w-75 p-4 scroll-down shadow-sm">
@@ -23,11 +33,36 @@
       				<td>{{user.2}}</td>
       				<td>{{user.3}}</td>
       				<td>{{user.5}}</td>
-      				<td><a href="/dashboard/mu/{{user.0}}" class="btn btn-warning"><i class='fas fa-pen' style="color:white;"></i></a>&nbsp;<a href="/dashboard/delete/{{user.0}}" class="btn btn-danger"><i class='fas fa-times' style="color:white;"></i></a></td>
+      				<td><a href="/dashboard/mu/{{user.0}}" class="btn btn-warning" ><i class='fas fa-pen' style="color:white;"></i></a>&nbsp;<a  class="btn btn-danger" data-toggle="modal" onclick="displayModal('{{user.0}}')" data-target="#exampleModal"><i class='fas fa-times' style="color:white;"></i></a></td>
     			</tr>
     			{% endfor %}
   			</tbody>
 		</table>
 	</div>
 </div>
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade in" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Eliminar usuario</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  ¿Está seguro que desea eliminar el usuario?
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+		  <button type="button" class="btn btn-danger" onclick="deleteUser(userID.value)"data-dismiss="modal">Eliminar</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+  <p hidden><input type="text" name="userID" id="userID" value="x_1"></p>
+
 {% endblock %}

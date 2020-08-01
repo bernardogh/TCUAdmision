@@ -2,6 +2,17 @@
 
 {% block body %}
 <script src="{{url_for('static', filename='js/scriptAscii.js')}}"></script>
+<script>
+	function displayModal(question,test){
+		$("#exampleModal").appendTo("body");
+		document.getElementById('questionID').value = question;
+    document.getElementById('testID').value = test;
+	}
+	function deleteQuestion (q,t){
+		location.href = "/dashboard/deleteQuestion/" + q + "," + t 
+	}
+</script>
+
 <div class="container-fluid pt-4 bg-light mheight containBar">
 	<div class="container bg-white rounded shadow">
 		<div class="container">
@@ -26,18 +37,40 @@
       <th scope="row">{{question.0}}</th>
       <td>{{question.3}}</td>
       <td>{{question.2}}</td>
-      <td><a href="/dashboard/modifyquestionQ/{{question.0}},{{examID}}" class="btn btn-warning"><i class='fas fa-pen' style="color:white;"></i></a>&nbsp;<a href="/dashboard/modifyquestion/{{question.0}}" class="btn btn-danger"><i class='fas fa-times' style="color:white;"></i></a></td>
+      <td><a href="/dashboard/modifyquestionQ/{{question.0}},{{examID}}" class="btn btn-warning"><i class='fas fa-pen' style="color:white;"></i></a>&nbsp;<a class="btn btn-danger" data-toggle="modal" onclick="displayModal('{{question.0}}','{{examID}}')" data-target="#exampleModal"><i class='fas fa-times' style="color:white;"></i></a></td>
     </tr>
 {%endfor%}
   </tbody>
 </table>	
 		</div>
 	
-	
+    
 
 </div>
 </div>
 
-
+<!-- Modal -->
+<div class="modal fade in" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Eliminar pregunta</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  ¿Está seguro que desea eliminar la pregunta?
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+		  <button type="button" class="btn btn-danger" onclick="deleteQuestion(questionID.value,testID.value)"data-dismiss="modal">Eliminar</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
+  <p hidden><input type="text" name="questionID" id="questionID" value="x_1"></p>
+  <p hidden><input type="text" name="testID" id="testID" value="x_1"></p>
 
 {% endblock %}
