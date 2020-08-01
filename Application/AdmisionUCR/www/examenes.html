@@ -7,34 +7,61 @@
 	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
 	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
 	<link rel="stylesheet" href="css/index.css">
-	<link rel="stylesheet" href="css/bootstrap.css">
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+	<script src="js/examenes.js"></script>
+	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src="js/index.js"></script>
 </head>
 <body>
 	<div data-role="page">
+		
 		<br>
 		<div data-role="header">
-			<h1 style="font-size: 26px;"> Practicas </h1>
+			<h1 style="font-size: 26px;"> Examenes </h1>
 			<a href="#myPanel" data-position="right" class="btn-togl" display="overlay"><i class="fa fa-bars" style="font-size:24px"></i></a>
 		</div><!-- /header -->
 		<div data-role="panel" data-display="overlay" style="width: 50%;" id="myPanel">
 			<h2 class="centerText pt-3" >Menu</h2>
 			<ul class="menu">
   				<li><a href="index.html">Inicio</a></li>
-  				<li><a href="examenes.html">Examenes</a></li>
-				<li><a class="active" href="Praticas.html">Práctica</a></li>
+  				<li><a class="active" href="examenes.html">Examenes</a></li>
+				<li><a href="Praticas.html">Práctica</a></li>
 				<li><a href="registros.html">Registros</a></li>
-  				<li><a   href="about.html">Nosotros</a></li>
+  				<li><a  href="about.html">Nosotros</a></li>
 			</ul>
 		</div><!-- /panel -->
-		<div role="main" class="ui-content">
-			<div class="div">
-				<p></p>
-			</div>
-		</div><!-- /content -->
+
+		<table class="table">
+			<thead>
+			  <tr>
+				<th scope="col">#</th>
+				<th scope="col">Año</th>
+				<th scope="col">Nombre</th>
+				<th scope="col">Acción</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+				<th scope="row">1</th>
+				<td>Mark</td>
+				<td>Otto</td>
+				<td>@mdo</td>
+			  </tr>
+			  <tr>
+				<th scope="row">2</th>
+				<td>Jacob</td>
+				<td>Thornton</td>
+				<td>@fat</td>
+			  </tr>
+			  <tr>
+				<th scope="row">3</th>
+				<td>Larry</td>
+				<td>the Bird</td>
+				<td>@twitter</td>
+			  </tr>
+			</tbody>
+		  </table>
 	</div><!-- /page -->
 </body>
 </html>
