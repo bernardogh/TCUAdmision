@@ -5,7 +5,7 @@ from flask import url_for, flash
 from app import mysql
 from flask import session
 import base64
-@app.route("/sign-in")
+@app.route("/")
 def login():
     return render_template('admin/login.html')
 
@@ -18,7 +18,7 @@ def dashboard():
         cur = mysql.get_db().cursor()
         cur.execute('SELECT * FROM USUARIO WHERE USU_CORREO = %s AND USU_CONTRASENHA = %s',(user, passw))
         data = cur.fetchall()
-        
+
         cur.execute('SELECT COUNT(USU_CODIGO_USUARIO) FROM USUARIO')
         counter_users = cur.fetchall()
 
@@ -45,7 +45,7 @@ def dashboard():
             else:
                 flash('Tu usuario no cuenta con los privilegios necesarios...!!!')
                 return redirect(url_for('login'))
-    else: 
+    else:
         if not session.get("USERNAME") is None:
             users = session.get("USERNAME")
             print(users)
@@ -53,7 +53,7 @@ def dashboard():
             cur = mysql.get_db().cursor()
             cur.execute("SELECT * FROM USUARIO WHERE USU_CORREO = %s", (users, ))
             data = cur.fetchall()
-        
+
             cur.execute('SELECT COUNT(USU_CODIGO_USUARIO) FROM USUARIO')
             counter_users = cur.fetchall()
 
@@ -200,7 +200,7 @@ def delQuestion(id, examID):
 
 
 def allowed_image(filename):
-    
+
     if not "." in filename:
         return False
 
@@ -213,7 +213,7 @@ def allowed_image(filename):
 
 @app.route('/dashboard/modify-question/<testID>')
 def modifyquestion(testID):
-    
+
     cur = mysql.get_db().cursor()
     cur.execute('SELECT CODIGO_PREGUNTA FROM EX_CONTIENE_PRE WHERE EXM_CODIGO = %s',(testID))
     questionsCodes = cur.fetchall()
@@ -233,12 +233,12 @@ def modifyquestion(testID):
 @app.route('/dashboard/addquestion/<examID>', methods=["GET", "POST"])
 def addquestion(examID):
     if request.method == "POST":
-        question = request.form['pregunta'] 
-        answer =   request.form['respuesta'] 
+        question = request.form['pregunta']
+        answer =   request.form['respuesta']
         link =     request.form['enlace']
         answer1 =  request.form['respuesta1']
         answer2 =  request.form['respuesta2']
-        answer3 =  request.form['respuesta3'] 
+        answer3 =  request.form['respuesta3']
         image_string = ""
         if request.files:
             print(request.cookies)
@@ -255,8 +255,8 @@ def addquestion(examID):
                 else:
                     flash("Imagen no válida", "danger")
                     return redirect(request.url)
-                
-        cur = mysql.get_db().cursor() 
+
+        cur = mysql.get_db().cursor()
 
         cur.execute('INSERT INTO PREGUNTA (PREGUNTA_IMAGEN, PREGUNTA_ENLACE, TEXTO_PREGUNTA) VALUES (%s,%s,%s)', (image_string, link, question))
         idpregunta = cur.lastrowid
@@ -279,13 +279,13 @@ def addquestion(examID):
         cur.execute ('INSERT INTO EX_CONTIENE_PRE (CODIGO_PREGUNTA, EXM_CODIGO) VALUES (%s, %s)', (idpregunta, examID))
         mysql.get_db().commit()
         flash('Se ha insertado correctamente','success')
-        return render_template('admin/addquestion.html')
+        return redirect(url_for("modifyquestion", testID = examID))
         #else:
             #flash("No image selected", "danger")
             #return redirect(request.url)
-    return render_template('admin/addquestion.html', testID = examID) 
+    return render_template('admin/addquestion.html', testID = examID)
 
-def allowed_image_filesize(filesize):    
+def allowed_image_filesize(filesize):
     if int(filesize) <= app.config["MAX_IMAGE_FILESIZE"]:
         return True
     else:
@@ -319,7 +319,7 @@ def mud(examID):
         cur = mysql.get_db().cursor()
 
         if request.files:
-            print(fileSize) 
+            print(fileSize)
             if fileSize != "x_1":
                 if not allowed_image_filesize(fileSize):
                     flash("La imagen excede el límite de tamaño", "danger")
@@ -334,8 +334,8 @@ def mud(examID):
                 else:
                     flash("Imagen no válida", "danger")
                     return redirect(request.url)
-            
-   
+
+
         cur.execute('UPDATE PREGUNTA SET PREGUNTA_ENLACE=%s, TEXTO_PREGUNTA=%s WHERE CODIGO_PREGUNTA=%s', (link, question, idQ))
         cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer, idC))
         cur.execute('UPDATE RESPUESTA SET TEXTO_RESPUESTA=%s WHERE RESP_CODIGO=%s', (answer1, idI1))

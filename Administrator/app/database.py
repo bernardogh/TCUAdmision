@@ -1,7 +1,6 @@
 from app import app
 app.config['SECRET_KEY'] = 'super secret key'
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'contra15'
-app.config['MYSQL_DATABASE_DB'] = 'ADMISIONUCR'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_PORT'] = 3307
+app.config['MYSQL_DATABASE_USER'] = 'admisionucr'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'DBAdminTCU.2020'
+app.config['MYSQL_DATABASE_DB'] = 'admisionucr$ADMISIONUCR'
+app.config['MYSQL_DATABASE_HOST'] = 'admisionucr.mysql.pythonanywhere-services.com'

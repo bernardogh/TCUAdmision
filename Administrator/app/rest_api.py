@@ -26,15 +26,28 @@ def exam():
     cur = mysql.get_db().cursor()
     cur.execute('SELECT * FROM EXAMEN')
     data = cur.fetchall()
+    print(data)
     items = []
     for exam in data:
-        items.append({"EXM_CODIGO":exam[0], "ANHO": exam[1], "NOMBRE": exam[2]})
+        items.append({"EXM_CODIGO":exam[0], "NOMBRE": exam[2], "ANHO": exam[1]})
     return jsonify({'exams':items})
+
+
+@app.route('/specificExam/<int:EXM_CODIGO>', methods=["GET"])
+def specificExam(EXM_CODIGO):
+    cur = mysql.get_db().cursor()
+    cur.execute('SELECT * FROM EXAMEN WHERE EXM_CODIGO = '  + str(EXM_CODIGO))
+    data = cur.fetchall()
+    items = []
+    for exam in data:
+        items.append({"EXM_CODIGO":exam[0],"ANHO":exam[1],"NOMBRE":exam[2]})
+    return jsonify({'exam':items})
+
 
 @app.route('/questionFromExam/<int:EXM_CODIGO>', methods=["GET"])
 def questionFromExam(EXM_CODIGO):
-    cur = mysql.get_db().cursor() 
-    cur.execute('select * from admisionucr.pregunta INNER JOIN admisionucr.ex_contiene_pre on admisionucr.pregunta.CODIGO_PREGUNTA = admisionucr.ex_contiene_pre.CODIGO_PREGUNTA where EXM_CODIGO ='  + str(EXM_CODIGO))
+    cur = mysql.get_db().cursor()
+    cur.execute('select * from PREGUNTA INNER JOIN EX_CONTIENE_PRE on PREGUNTA.CODIGO_PREGUNTA = EX_CONTIENE_PRE.CODIGO_PREGUNTA WHERE EXM_CODIGO ='  + str(EXM_CODIGO))
     data = cur.fetchall()
     items = []
     for question in data:
@@ -43,8 +56,8 @@ def questionFromExam(EXM_CODIGO):
 
 @app.route('/answersFromQuestion/<int:CODIGO_PREGUNTA>', methods=["GET"])
 def answersFromQuestion(CODIGO_PREGUNTA):
-    cur = mysql.get_db().cursor() 
-    cur.execute('select * from admisionucr.respuesta INNER JOIN admisionucr.pres_compuesta_resp on admisionucr.respuesta.RESP_CODIGO = admisionucr.pres_compuesta_resp.RESP_CODIGO where CODIGO_PREGUNTA ='  + str(CODIGO_PREGUNTA) + ' ORDER BY RAND() ')
+    cur = mysql.get_db().cursor()
+    cur.execute('SELECT * from RESPUESTA INNER JOIN PRES_COMPUESTA_RESP on RESPUESTA.RESP_CODIGO = PRES_COMPUESTA_RESP.RESP_CODIGO WHERE CODIGO_PREGUNTA ='  + str(CODIGO_PREGUNTA) + ' ORDER BY RAND() ')
     data = cur.fetchall()
     items = []
     for answers in data:
@@ -53,12 +66,22 @@ def answersFromQuestion(CODIGO_PREGUNTA):
 
 @app.route('/answersById/<int:CODIGO_PREGUNTA>', methods=["GET"])
 def answersById(CODIGO_PREGUNTA):
-    cur = mysql.get_db().cursor() 
-    cur.execute('SELECT * FROM admisionucr.pregunta where Codigo_Pregunta = '  + str(CODIGO_PREGUNTA))
+    cur = mysql.get_db().cursor()
+    cur.execute('SELECT * FROM PREGUNTA WHERE CODIGO_PREGUNTA = '  + str(CODIGO_PREGUNTA))
     data = cur.fetchall()
     items = []
     for answer in data:
         items.append({"CODIGO_PREGUNTA":answer[0],"PREGUNTA_IMAGEN":answer[1],"TEXTO_PREGUNTA":answer[3]})
     return jsonify({'answer':items})
+
+@app.route('/cantidadPreguntas', methods=["GET"])
+def cantidadPreguntas():
+    cur = mysql.get_db().cursor()
+    cur.execute('SELECT COUNT(*) CANTIDAD FROM PREGUNTA')
+    data = cur.fetchall()
+    items = []
+    for answer in data:
+        items.append({"cantidad":answer[0]})
+    return jsonify({'cantidad':items})
 
 
