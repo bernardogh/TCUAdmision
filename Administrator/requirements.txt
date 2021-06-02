@@ -69,7 +69,7 @@ six==1.14.0
 team==1.0
 udiskie==2.1.0
 ufw==0.36
-urllib3==1.25.8
+urllib3==1.26.5
 webencodings==0.5.1
 Werkzeug==1.0.0
 wrapt==1.11.2
